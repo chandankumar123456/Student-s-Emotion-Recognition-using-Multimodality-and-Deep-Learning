@@ -14,13 +14,20 @@ import sys
 import urllib.request
 
 # ─────────────────────────────────────────────────────────────────────────────
-# GOOGLE DRIVE DOWNLOAD LINKS
-# Replace each FILE_ID below with the actual Google Drive file ID.
+# Official models folder (manual download if auto-download fails or IDs change):
+#   https://drive.google.com/drive/folders/1zGU8QGjmiga51rmNsz0wPqO3xqz3JaLj
+# Put files under project root:
+#   saved_models/facial_emotion_model.h5
+#   saved_models/speech_emotion_model.h5
+#   saved_models/text_bert_model/   (extract text_bert_model.zip here)
 #
-# How to get the file ID from a Google Drive share link:
-#   Share link: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
-#   Copy just the FILE_ID part.
+# Auto-download uses per-file IDs below (not the folder ID). If you replace
+# files in Drive, right-click each file → Share → copy link → update file_id.
 # ─────────────────────────────────────────────────────────────────────────────
+
+MODELS_DRIVE_FOLDER_URL = (
+    "https://drive.google.com/drive/folders/1zGU8QGjmiga51rmNsz0wPqO3xqz3JaLj"
+)
 
 MODELS = {
     "facial_emotion_model.h5": {
@@ -73,8 +80,8 @@ def download_from_gdrive(file_id: str, dest_path: str, description: str, size: s
 
     except Exception as e:
         print(f"\n  ❌ Failed to download {description}: {e}")
-        print(f"     Please download manually from:")
-        print(f"     https://drive.google.com/file/d/{file_id}/view")
+        print(f"     Direct file link: https://drive.google.com/file/d/{file_id}/view")
+        print(f"     Or open the models folder: {MODELS_DRIVE_FOLDER_URL}")
         return False
 
 
@@ -109,6 +116,8 @@ def main():
     print("  🤖 Multimodal Emotion Recognition — Model Downloader")
     print("=" * 60)
     print()
+    print(f"  📁 Models folder (manual download): {MODELS_DRIVE_FOLDER_URL}")
+    print()
 
     check_placeholders()
 
@@ -136,6 +145,7 @@ def main():
         print("  🚀 You can now run:  python run_dashboard.py")
     else:
         print("  ⚠️  Some models failed. Check the errors above.")
+        print(f"  📁 Download manually from: {MODELS_DRIVE_FOLDER_URL}")
     print("=" * 60)
 
 
